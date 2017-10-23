@@ -2,25 +2,27 @@
 
 @section('content')
     <div class="col-16 row TitleBar">
-        <a class="TitleBar-navLink active" href="clientes">Usuarios</a>
+        <a class="TitleBar-navLink active" href="clientes">Productos</a>
     </div>
     <div class="Table-title row">
-        <a class="Button Button-blue" href="/admin/usuarios/nuevo">Nuevo usuario</a>
+        <a class="Button Button-blue" href="/admin/productos/nuevo">Nuevo producto</a>
         <input placeholder="Buscar usuario" type="search" class="Search">
     </div>
     <section class="Table">
 
         <div class="Table-header row around ">
+            <div class="col-1">ID</div>
             <div class="col-3">Nombre</div>
-            <div class="col-3">Rol</div>
-            <div class="col-3">Email</div>
+            <div class="col-4">Contabilizado</div>
+            <div class="col-8">descipción</div>
         </div>
 
-        @foreach($users as $user)
-            <a href="/admin/usuarios/{{$user->id}}/editar" class="Table-row row around ">
-                <div class="col-3">{{$user->name}}</div>
-                <div class="col-3">{{$user->roles->first()->name}}</div>
-                <div class="col-3">{{$user->email}}</div>
+        @foreach($products as $product)
+            <a href="/admin/productos/{{$product->id}}/editar" class="Table-row row around ">
+                <div class="col-1">{{$product->id}}</div>
+                <div class="col-3">{{$product->name}}</div>
+                <div class="col-4">{{$product->count}}</div>
+                <div class="col-8">{{$product->description}}</div>
             </a>
         @endforeach
     </section>

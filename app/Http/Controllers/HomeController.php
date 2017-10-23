@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -25,8 +26,19 @@ class HomeController extends Controller
     {
         return view('front.home');
     }
+
+    public function point()
+    {
+        return view('back.reportPoint',['products' => Product::all()]);
+    }
+
+    public function administrator()
+    {
+        return 'administrator';
+    }
+
     public function admin()
     {
-        return view('back.home');
+        return route(auth()->user()->roles->first()->name == 'Point' ? 'homePoint' : 'homeAdmin');
     }
 }

@@ -93,7 +93,7 @@
                         </svg>
                         Usuarios</a></li>
             @endcan
-            <li><a href="/admin/puntos">
+            <li><a href="/admin/productos">
                     <svg width="19px" height="23px" viewBox="0 0 19 23" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -109,7 +109,7 @@
                             </g>
                         </g>
                     </svg>
-                    Puntos</a></li>
+                    Productos</a></li>
             <li>
                 <a href="">
                     <svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg"

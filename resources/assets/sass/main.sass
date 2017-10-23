@@ -1,13 +1,17 @@
 @import "config"
 @import "theme/autocomplete"
 @import "theme/login"
+
+
+.hidden
+  display: none
+
 .Errors
   background: #fd7373
   color: #ffffff
   padding: 1.25rem
   line-height: 2
   font-size: 1rem
-
 .marginTop-20
   margin-top: rem(20) !important
 
@@ -148,7 +152,7 @@ button.reset
     display: inline-block
     margin: rem(10) 0 rem(4) 0
     overflow: hidden
-  input, select, textarea
+  input:not([type='checkbox']), select, textarea
     resize: none
     padding: rem(8)
     vertical-align: middle
@@ -201,7 +205,7 @@ input[readonly]
     content: ''
     position: absolute
     left: 0
-    top: 0
+    top: rem(9)
     border: 1px solid #DADAE4
     background: #fff
     width: 18px
