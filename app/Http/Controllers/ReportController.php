@@ -13,7 +13,7 @@ class ReportController extends Controller
     {
         return view('back.report',
             [
-                'points' => Point::pluck('name', 'id')
+                'pointsName' => Point::pluck('name', 'id')
             ]
         );
     }
@@ -21,13 +21,15 @@ class ReportController extends Controller
     public function reports(ReportResquest $request)
     {
 
-        $dates = preg_replace('/\s+/', '', explode('to', $request->input('date')));
+        //$dates = preg_replace('/\s+/', '', explode('to', $request->input('date')));
+        $date = $request->input('date');
+        $pointsName = Point::pluck('name', 'id');
         $points =
-            Point::find(1)->products()->whereHas
-            (
-                "point_product.date BETWEEN  '$dates[0]' AND '$dates[1]'"
-            )->get();
-
-        var_dump($points);
+            Point::find(1)->whereHas('products', function ($query) use ($date) {
+                $query->where("point_product.date", $date);
+            })->with(['products' => function ($query) use ($date) {
+                $query->where("point_product.date", $date);
+            }])->get();
+        return view('back.report', compact('points', 'pointsName','date'));
     }
 }

@@ -28,7 +28,7 @@
             <form action="/admin/puntos/reporte" method="post" id="Form" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <article class="Invoice-area">
-                    <h3>Ingrese el inventario de hoy  </h3>
+                    <h3>Ingrese el inventario de {{isset($date)?$date:'hoy'}}  </h3>
                     <div class="row arrow ProductsForm">
                         @foreach($point->stockDay as $product)
                             <div class="col-4">

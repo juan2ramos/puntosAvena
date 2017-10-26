@@ -25,7 +25,7 @@
 
                             <select name="point" id="">
                                 <option value="">Elige una opción</option>
-                                @foreach($points as $key => $point)
+                                @foreach($pointsName as $key => $point)
                                     <option value="{{$key}}">{{$point}}</option>
                                 @endforeach
                             </select>
@@ -33,17 +33,47 @@
                     </div>
                     <div class="col-5 offset-1">
                         <label for="date">
-                            <span>Elige un rango de fechas</span>
+                            <span>Elige la fecha</span>
                             <input type="text" name="date" id="date">
                         </label>
                     </div>
                     <div class="col-2 offset-1">
                         <span></span>
-                        <button  class="Button Button-blue" style="margin-top: 10px"> Enviar solicitud</button>
+                        <button class="Button Button-blue" style="margin-top: 10px"> Enviar solicitud</button>
                     </div>
                 </div>
             </article>
+            @if(isset($points))
+                <article>
 
+                    <h3>Puntos</h3>
+                    <div class="Table-header row around marginTop-20">
+                        <div class="col-1">ID</div>
+                        <div class="col-5">Nombre punto</div>
+                        <div class=" {{(isset($date)?'col-5':'col-7')}}">Dirección</div>
+                        @if(isset($date))
+                            <div class="col-2 center">Fecha</div>
+                        @endif
+                        <div class="col-3 center">Accion</div>
+                    </div>
+
+                    @foreach($points as $point)
+                        <div class="Table-row row around " style="cursor: auto">
+                            <div class="col-1">{{$point->id}}</div>
+                            <div class="col-5">{{$point->name}}</div>
+                            <div class="{{(isset($date)?'col-5':'col-7')}}">{{$point->address}}</div>
+                            @if(isset($date))
+                                <div class="col-2 center">{{$date}}</div>
+                            @endif
+                            <div class="col-3 center">
+                            <a class="Button Button-blue" href="/admin/puntos/reporte/{{$point->id}}">
+                                    Ver detalle
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </article>
+            @endif
         </form>
     </section>
 
@@ -58,7 +88,6 @@
     <script>
         flatpickr("#date", {
             "locale": "es",
-            mode: "range",
             dateFormat: "Y-m-d",
         });
     </script>

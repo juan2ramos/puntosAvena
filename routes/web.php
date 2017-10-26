@@ -35,12 +35,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::get('/reportes', 'ReportController@index');
     Route::post('/reportes', 'ReportController@reports');
 
-
-
 });
 
-Route::get('/jk', function () {
-
-
-});
 
