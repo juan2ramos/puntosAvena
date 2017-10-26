@@ -1,48 +1,41 @@
 @extends('layouts.back')
+@section('title', 'Agencia de Publicidad en Bogotá')
 
 @section('content')
 
-    <div class="Table-title row between middle marginTop-20">
-        <h1>Inventario de productos</h1>
+    <div class="col-16 row TitleBar">
+        <a class="TitleBar-navLink " href="/admin"> ← inicio</a>
+    </div>
+    <div class="Table-title row between middle">
+        <h1>{{$point->name}}</h1>
 
         <div class="row">
-            <button id="submit" href="" class="Button Button-blue">Guardar</button>
+            <button id="submit" href="" class="Button Button-blue">Actualizar</button>
         </div>
     </div>
     <section class="Invoice">
-        <article>
 
-            <h3>Inventarios del día de {{$day[0]}}  {{$day[1]}} </h3>
-            <div class="row arrow ProductsBack">
-                @foreach($pointProducts as $pointProduct)
-                    <div class="col-4">
-                        <em>{{$pointProduct->stock->quantity}}</em>
-                        {{$pointProduct->name}}
+        @if($errors->any())
+            <div class="Errors">
+                @foreach($errors->all() as $error)
+                    <div>
+                        {{$error}}
                     </div>
                 @endforeach
             </div>
-        </article>
-        @if(isset($products))
-            @if($errors->any())
-                <div class="Errors">
-                    @foreach($errors->all() as $error)
-                        <div>
-                            {{$error}}
-                        </div>
-                    @endforeach
-                </div>
-            @endif
+        @endif
 
-            <form action="/admin/productos/punto" method="post" id="Form" enctype="multipart/form-data">
+            <form action="/admin/puntos/reporte" method="post" id="Form" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <article class="Invoice-area">
-                    <h3>Ingrese el inventario de hoy {{$today}} </h3>
+                    <h3>Ingrese el inventario de hoy  </h3>
                     <div class="row arrow ProductsForm">
-                        @foreach($products as $product)
+                        @foreach($point->stockDay as $product)
                             <div class="col-4">
+                                @php($old = old(str_replace(' ','_',$product->name )))
                                 <label for="{{$product->name}}" class=" row middle">
                                     <input id="{{$product->name}}" type="number"
-                                           value="{{old(str_replace(' ','_',$product->name ))}}"
+                                           value="{{($old)?$old:$product->stock->quantity}}"
                                            name="{{$product->name}}"
                                            placeholder="Valor"
                                            data-id="{{$product->id}}"
@@ -56,17 +49,10 @@
                     </div>
                 </article>
             </form>
-        @endif
     </section>
-@endsection
-@section('styles')
-    @if(session('success'))
-        <link rel="stylesheet" href="{{url('css/sweetalert.css')}}">
-    @endif
+
 @endsection
 @section('scripts')
-
-
     <script>
 
         const form = document.getElementById('Form'),
@@ -113,5 +99,5 @@
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @endsection

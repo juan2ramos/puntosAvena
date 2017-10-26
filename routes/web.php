@@ -28,5 +28,19 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::post('/productos/editar', 'ProductController@updateProduct');
     Route::post('/productos/eliminar', 'ProductController@deleteProduct');
 
+    Route::post('/productos/punto', 'ProductController@productPoint');
+    Route::get('/puntos/reporte/{id}', 'PointController@pointProductDetail');
+    Route::post('/puntos/reporte', 'PointController@productPointUpdate');
+
+    Route::get('/reportes', 'ReportController@index');
+    Route::post('/reportes', 'ReportController@reports');
+
+
+
+});
+
+Route::get('/jk', function () {
+
+
 });
 

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductPointRequest;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -44,5 +46,21 @@ class ProductController extends Controller
     {
         Product::destroy($request->input('idProduct'));
         return redirect('/admin/productos');
+    }
+
+    /**
+     * @param ProductPointRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function productPoint(ProductPointRequest $request)
+    {
+        $ids = $request->input('ids');
+        $arrayIds = [];
+        foreach ($ids as $key => $id) {
+            $arrayIds += [$key => ['quantity' => $id, 'date' => Carbon::today()->toDateString()]];
+        }
+        auth()->user()->point->products()->attach($arrayIds);
+
+        return back();
     }
 }

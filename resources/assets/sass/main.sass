@@ -2,7 +2,6 @@
 @import "theme/autocomplete"
 @import "theme/login"
 
-
 .hidden
   display: none
 
@@ -12,16 +11,19 @@
   padding: 1.25rem
   line-height: 2
   font-size: 1rem
+
 .marginTop-20
   margin-top: rem(20) !important
 
 .alignRight
   text-align: right
+
 button.reset
   background: none
   border: none
   height: rem(20)
   cursor: pointer
+
 .Button
   font-size: rem(12)
   text-decoration: none
@@ -241,7 +243,7 @@ label.Label-select
   &:after
     content: '↓'
     position: absolute
-    top: 45px
+    top: 30px
     right: 0
     bottom: 0
     padding: 0 10px
@@ -301,7 +303,21 @@ label.Label-select
   color: #313140
   font-size: rem(12)
 
-
 .LoginForm-logo
   img
     max-width: rem(182)
+
+.ProductsForm
+  input
+    max-width: rem(60)
+    margin: rem(10)
+.ProductsBack
+  em
+    color: #498bfd
+    border-bottom: 1px solid #498bfd
+    display: inline-block
+    vertical-align: middle
+    padding: rem(6)
+    margin-right: rem(8)
+  div
+    margin: rem(10) 0
