@@ -51,6 +51,7 @@
                         </g>
                     </svg>
                     INICIO</a></li>
+            @can('admin_users')
             <li><a href="/admin/reportes">
                     <svg width="26px" height="23px" viewBox="0 0 26 23" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -69,7 +70,7 @@
                     </svg>
                     REPORTES</a></li>
 
-            @can('admin_users')
+
                 <li><a href="/admin/usuarios">
                         <svg width="22px" height="23px" viewBox="0 0 22 23" version="1.1"
                              xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +93,7 @@
                             </g>
                         </svg>
                         Usuarios</a></li>
-            @endcan
+
             <li><a href="/admin/productos">
                     <svg width="19px" height="23px" viewBox="0 0 19 23" version="1.1" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -111,6 +112,7 @@
                     </svg>
                     Productos</a></li>
             <li>
+                @endcan
                 <a href="/logout">
 
                     <svg width="22px" height="23px" viewBox="0 0 22 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
