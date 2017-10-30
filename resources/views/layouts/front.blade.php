@@ -25,7 +25,9 @@
 <body id="#body" class="@yield('classBody')">
 
 <div class="LoginForm-logo">
-    <img src="{{url('img/logo_avena_cubana.png')}}" alt="">
+    <a href="/">
+        <img src="{{url('img/logo_avena_cubana.png')}}" alt="">
+    </a>
 </div>
 @yield('content')
 <footer class="Footer scrollTarget" id="#redes-sociales">
