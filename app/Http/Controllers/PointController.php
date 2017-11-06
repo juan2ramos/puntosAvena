@@ -12,12 +12,8 @@ class PointController extends Controller
 
     public function pointProductDetail($id)
     {
-
         Session()->flash('pointId', $id);
-
-        return view('back.pointProductDetail',
-            ['point' => Point::with('stockDay')->find($id)]
-        );
+        return view('back.pointProductDetail', ['point' => Point::with('stockForDay')->find($id)]);
     }
 
     public function productPointUpdate(ProductPointRequest $request)

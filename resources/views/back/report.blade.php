@@ -66,7 +66,7 @@
                                 <div class="col-2 center">{{$date}}</div>
                             @endif
                             <div class="col-3 center">
-                            <a class="Button Button-blue" href="/admin/puntos/reporte/{{$point->id}}">
+                            <a class="Button Button-blue" href="/admin/puntos/reporte/{{$point->id}}/{{$date}}">
                                     Ver detalle
                                 </a>
                             </div>

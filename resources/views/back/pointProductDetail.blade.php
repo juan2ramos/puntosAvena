@@ -32,7 +32,7 @@
                 <article class="Invoice-area">
                     <h3>Ingrese el inventario de {{isset($date)?$date:'hoy'}}  </h3>
                     <div class="row arrow ProductsForm">
-                        @foreach($point->stockDay as $product)
+                        @foreach($point->stockForDay as $product)
                             <div class="col-4">
                                 @php($old = old(str_replace(' ','_',$product->name )))
                                 <label for="{{$product->name}}" class=" row middle">
