@@ -10,12 +10,13 @@
         <input type="hidden" name="id" id="idUser" value="{{$user->id}}">
     </form>
     <div class="Table-title row between middle">
-        <h1>Nuevo usuario</h1>
-
-        <div class="row">
-            <button id="delete" href="" class="Button Button-red">Eliminar</button>
-            <button id="submit" href="" class="Button Button-blue">Guardar</button>
-        </div>
+        <h1>{{$user->name}}</h1>
+        @can('update')
+            <div class="row">
+                <button id="delete" href="" class="Button Button-red">Eliminar</button>
+                <button id="submit" href="" class="Button Button-blue">Guardar</button>
+            </div>
+        @endcan
     </div>
     <section class="Invoice">
 
@@ -62,12 +63,30 @@
                                     Administrador
                                 </option>
                                 <option value="Point" {{($role == 'Point')?'selected':''}}>Punto</option>
+                                <option value="Viewer" {{($role == 'Viewer')?'selected':''}}>Colaborador</option>
                             </select>
                         </label>
                         <label for="password">
                             <span>Contraseña</span>
                             <input id="password" type="password" value="" name="password">
                         </label>
+                        <div class="row arrow marginTop-20 {{(old('role')!='Point')?'hidden':($user->roles->first()->name != 'Point')?'hidden':''}}"
+                             id="product">
+
+                            @foreach($products as $id => $product)
+                                <label style="padding: 3px 0;" class="col-6" for="product{{$product->id}}">
+                                    <input id="product{{$product->id}}" name="product[{{$product->id}}]"
+                                           {{(old("product.$id"))?'checked':
+                                           ( $user->roles->first()->name == 'Point' &&
+                                           $user->point->productsAvailable->pluck('id')->contains($product->id)
+                                           ?'checked':''
+                                           )
+                                           }}
+                                           value="{{$product->id}}" type="checkbox">
+                                    {{$product->name}}
+                                </label>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </article>
@@ -84,18 +103,22 @@
             submit = document.getElementById('submit'),
             address = document.getElementById('address'),
             deleteUser = document.getElementById('delete'),
+            product = document.getElementById('product'),
             role = document.getElementById('role');
-
-        submit.addEventListener('click', function (e) {
-            e.preventDefault();
-            form.submit();
-        });
+        if(submit) {
+            submit.addEventListener('click', function (e) {
+                e.preventDefault();
+                form.submit();
+            });
+        }
         role.addEventListener('change', function () {
 
             if (this.options[this.selectedIndex].value == 'Point') {
                 address.classList.remove('hidden')
+                product.classList.remove('hidden')
             } else {
                 address.classList.add('hidden')
+                product.classList.add('hidden')
             }
         });
 

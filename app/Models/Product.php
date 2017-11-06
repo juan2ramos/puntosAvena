@@ -16,4 +16,7 @@ class Product extends Model
     public function getCountAttribute($value){
         return ($value)?'Si':'No';
     }
+    public function pointsAvailable(){
+        return $this->belongsToMany(Point::class,'point_product_available');
+    }
 }

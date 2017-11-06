@@ -8,10 +8,12 @@
     </div>
     <div class="Table-title row between middle">
         <h1>{{$point->name}}</h1>
+        @can('update')
+            <div class="row">
+                <button id="submit" href="" class="Button Button-blue">Actualizar</button>
+            </div>
+        @endcan
 
-        <div class="row">
-            <button id="submit" href="" class="Button Button-blue">Actualizar</button>
-        </div>
     </div>
     <section class="Invoice">
 

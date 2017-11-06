@@ -25,7 +25,9 @@ class Point extends Model
             ->wherePivot('date', Carbon::yesterday()->toDateString());
     }
 
-
+    public function productsAvailable(){
+        return $this->belongsToMany(Product::class,'point_product_available')->as('avail');
+    }
 
 
 

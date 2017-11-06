@@ -7,10 +7,11 @@
     </div>
     <div class="Table-title row between middle">
         <h1>Nuevo usuario</h1>
-
-        <div class="row">
-            <button id="submit" href="" class="Button Button-blue">Guardar</button>
-        </div>
+        @can('update')
+            <div class="row">
+                <button id="submit" href="" class="Button Button-blue">Guardar</button>
+            </div>
+        @endcan
     </div>
     <section class="Invoice">
 
@@ -50,14 +51,26 @@
                         <label for="role" class="col-7"><span>Rol</span>
                             <select name="role" id="role">
                                 <option value="">Elige una opción</option>
-                                <option value="Administrator" {{(old('role')=='Administrator')?'selected':''}}>Administrador</option>
+                                <option value="Administrator" {{(old('role')=='Administrator')?'selected':''}}>
+                                    Administrador
+                                </option>
                                 <option value="Point" {{(old('role')== 'Point')?'selected':''}}>Punto</option>
+                                <option value="Viewer" {{(old('role')== 'Viewer')?'selected':''}}>Colaborador</option>
                             </select>
                         </label>
                         <label for="password">
                             <span>Contraseña</span>
                             <input id="password" type="password" value="" name="password">
                         </label>
+                        <div class="row arrow marginTop-20" id="product">
+                            @foreach($products as $id => $product)
+                                <label style="padding: 3px 0;" class="col-6" for="product{{$id}}">
+                                    <input id="product{{$id}}" name="product[{{$id}}]"
+                                           {{(old("product.$id"))?'checked':''}} value="{{$id}}" type="checkbox">
+                                    {{$product}}
+                                </label>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </article>
@@ -73,21 +86,24 @@
         const form = document.getElementById('userForm'),
             submit = document.getElementById('submit'),
             address = document.getElementById('address'),
+            product = document.getElementById('product'),
             role = document.getElementById('role');
+        if(submit){
+            submit.addEventListener('click', function (e) {
+                e.preventDefault();
+                form.submit();
+            });
+        }
+        role.addEventListener('change', function () {
 
-        submit.addEventListener('click', function (e) {
-            e.preventDefault();
-            form.submit();
-        });
-        role.addEventListener('change',function(){
-
-           if( this.options[ this.selectedIndex].value == 'Point'){
-               address.classList.remove('hidden')
-           }else{
-               address.classList.add('hidden')
-           }
+            if (this.options[this.selectedIndex].value == 'Point') {
+                address.classList.remove('hidden')
+                product.classList.remove('hidden')
+            } else {
+                address.classList.add('hidden')
+                product.classList.add('hidden')
+            }
         })
-
 
 
     </script>

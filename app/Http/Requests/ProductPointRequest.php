@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Point;
 use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,10 +25,12 @@ class ProductPointRequest extends FormRequest
      */
     public function rules()
     {
-        $products = Product::pluck('name');
+        $products = (auth()->user()->hasRole('Administrator')) ?
+            Point::find(session('pointId'))->productsAvailable->pluck('name'):
+            auth()->user()->point->productsAvailable->pluck('name');
         $return = [];
-        foreach ($products as $product){
-            $return += [str_replace(' ','_',$product )=> 'required|numeric|min:0'];
+        foreach ($products as $product) {
+            $return += [str_replace(' ', '_', $product) => 'required|numeric|min:0'];
         }
         return $return;
     }

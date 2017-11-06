@@ -5,7 +5,9 @@
         <a class="TitleBar-navLink active" href="clientes">Productos</a>
     </div>
     <div class="Table-title row">
+        @can('update')
         <a class="Button Button-blue" href="/admin/productos/nuevo">Nuevo producto</a>
+        @endcan
         <input placeholder="Buscar usuario" type="search" class="Search">
     </div>
     <section class="Table">

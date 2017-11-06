@@ -24,8 +24,6 @@ class PointController extends Controller
     {
         $ids = $request->input('ids');
 
-        //  $ids = ['1' => 230, '2' => 231, '3' => 232, '4' => 233, '5' => 234, '6' => 235, '7' => 136];
-
         $products = Point::find(session('pointId'))->products()
             ->where('date', Carbon::now()->toDateString())->get();
 

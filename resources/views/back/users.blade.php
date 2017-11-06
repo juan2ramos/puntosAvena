@@ -5,7 +5,9 @@
         <a class="TitleBar-navLink active" href="clientes">Usuarios</a>
     </div>
     <div class="Table-title row">
-        <a class="Button Button-blue" href="/admin/usuarios/nuevo">Nuevo usuario</a>
+        @if(isset($products))
+            <a class="Button Button-blue" href="/admin/usuarios/nuevo">Nuevo usuario</a>
+        @endif
         <input placeholder="Buscar usuario" type="search" class="Search">
     </div>
     <section class="Table">

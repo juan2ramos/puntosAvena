@@ -11,11 +11,12 @@
     </div>
     <div class="Table-title row between middle">
         <h1>{{$product->name}}</h1>
-
-        <div class="row">
-            <button id="deleteProduct" href="" class="Button Button-red">Eliminar</button>
-            <button id="submit" href="" class="Button Button-blue">Guardar</button>
-        </div>
+        @can('update')
+            <div class="row">
+                <button id="deleteProduct" href="" class="Button Button-red">Eliminar</button>
+                <button id="submit" href="" class="Button Button-blue">Guardar</button>
+            </div>
+        @endcan
     </div>
     <section class="Invoice">
 
@@ -42,7 +43,8 @@
                         </label>
                         <div class="Invoice-tax">
                             <input id="count" class="Invoice-tax" type="checkbox"
-                                   {{old('count')?'checked':(($product->count == 'Si')?'checked':'')}}  value="1" name="count">
+                                   {{old('count')?'checked':(($product->count == 'Si')?'checked':'')}}  value="1"
+                                   name="count">
                             <label for="count" class="Invoice-taxLabel">
                                 <span>Contabilizar al total</span>
                             </label>

@@ -16,10 +16,14 @@ class Permissions extends Seeder
     public function run()
     {
         $admin = Role::create(['name' => 'Administrator']);
+        $viewer = Role::create(['name' => 'Viewer']);
         Role::create(['name' => 'Point']);
         Permission::create(['name' => 'admin_users']);
+        Permission::create(['name' => 'update']);
 
         $admin->givePermissionTo('admin_users');
+        $admin->givePermissionTo('update');
+        $viewer->givePermissionTo('admin_users');
 
         $user = User::create([
             'name' => 'Juan Ramos',

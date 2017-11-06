@@ -4,10 +4,11 @@
 
     <div class="Table-title row between middle marginTop-20">
         <h1>Inventario de productos</h1>
-
-        <div class="row">
-            <button id="submit" href="" class="Button Button-blue">Guardar</button>
-        </div>
+        @if(isset($products))
+            <div class="row">
+                <button id="submit" href="" class="Button Button-blue">Guardar</button>
+            </div>
+        @endif
     </div>
     <section class="Invoice">
         <article>
@@ -93,7 +94,6 @@
 
 
         });
-
 
         function addHidden(key, value) {
             var input = document.createElement('input');

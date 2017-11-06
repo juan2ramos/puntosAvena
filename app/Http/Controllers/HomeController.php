@@ -43,7 +43,7 @@ class HomeController extends Controller
         return view('back.reportPoint',
             [
                 'pointProducts' => $pointProducts,
-                'products' => Product::all(),
+                'products' => auth()->user()->point->productsAvailable,
                 'day' => ['ayer', Carbon::yesterday()->formatLocalized('%A %d de %B %Y')],
                 'today' => Carbon::now()->formatLocalized('%A %d de %B %Y')
             ]);
