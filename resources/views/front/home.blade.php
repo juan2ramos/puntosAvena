@@ -30,7 +30,6 @@
                 <div class="LoginForm-links">
                     <a href="{{ route('password.request') }}">¿Olvidaste la contraseña?</a>
 
-
                 </div>
             </div>
             <div>
