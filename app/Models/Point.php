@@ -14,31 +14,31 @@ class Point extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class)->as('stock')->withPivot('date', 'quantity');
+        return $this->belongsToMany(Product::class)->as('stock')->withPivot('date', 'quantity','sold','price');
     }
 
     public function stockDay()
     {
-        return $this->belongsToMany(Product::class)->as('stock')->withPivot('date', 'quantity')
+        return $this->belongsToMany(Product::class)->as('stock')->withPivot('date', 'quantity','sold','price')
             ->wherePivot('date', Carbon::now()->toDateString());
     }
 
     public function stockForDay()
     {
-        return $this->belongsToMany(Product::class)->as('stock')->withPivot('date', 'quantity')
+        return $this->belongsToMany(Product::class)->as('stock')->withPivot('date', 'quantity','sold','price')
             ->wherePivot('date', (\request()->date) ?\request()->date:Carbon::now()->toDateString());
     }
 
     public function stockYesterday()
     {
-        return $this->belongsToMany(Product::class)->as('stock')->withPivot('date', 'quantity')
+        return $this->belongsToMany(Product::class)->as('stock')->withPivot('date', 'quantity','sold','price')
             ->wherePivot('date', Carbon::yesterday()->toDateString());
     }
 
 
     public function productsAvailable()
     {
-        return $this->belongsToMany(Product::class, 'point_product_available')->as('avail');
+        return $this->belongsToMany(Product::class, 'point_product_available')->as('avail')->withPivot('price');
     }
 
 

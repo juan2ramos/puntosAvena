@@ -26,11 +26,14 @@ class ProductPointRequest extends FormRequest
     public function rules()
     {
         $products = (auth()->user()->hasRole('Administrator')) ?
-            Point::find(session('pointId'))->productsAvailable->pluck('name'):
-            auth()->user()->point->productsAvailable->pluck('name');
+            Point::find(session('pointId'))->productsAvailable->pluck('id'):
+            auth()->user()->point->productsAvailable->pluck('id');
         $return = [];
+
         foreach ($products as $product) {
-            $return += [str_replace(' ', '_', $product) => 'required|numeric|min:0'];
+
+            $return += ['ids.' . $product . '.quantity' => 'required|numeric|min:0'];
+            $return += ['ids.' . $product . '.sold' => 'required|numeric|min:0'];
         }
         return $return;
     }

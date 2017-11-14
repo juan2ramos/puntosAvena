@@ -28,7 +28,7 @@ class PointController extends Controller
                 ->where('date', Carbon::now()->toDateString())
                 ->where('point_id', session('pointId'))
                 ->where('product_id', $product->id)
-                ->update(['quantity' => $ids[$product->id]]);
+                ->update($ids[$product->id]);
         }
 
         return back();

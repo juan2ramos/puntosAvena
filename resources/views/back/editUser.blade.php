@@ -70,13 +70,13 @@
                             <span>Contraseña</span>
                             <input id="password" type="password" value="" name="password">
                         </label>
-                        <div class="row arrow marginTop-20 {{(old('role')!='Point')?'hidden':($user->roles->first()->name != 'Point')?'hidden':''}}"
+                        <div class="row arrow marginTop-20"
                              id="product">
-
                             @foreach($products as $id => $product)
-                                <label style="padding: 3px 0;" class="col-6" for="product{{$product->id}}">
-                                    <input id="product{{$product->id}}" name="product[{{$product->id}}]"
-                                           {{(old("product.$id"))?'checked':
+                                <label data-id="{{$product->id}}" style="padding: 3px 0;  margin: 10px 10px 0 0;" class="col-6"
+                                       for="product{{$product->id}}[id]">
+                                    <input style="margin-bottom: 8px" class="productCheck" id="product{{$product->id}}['id']" name="product[{{$product->id}}][id]"
+                                           {{old("product.$product->id.id")?'checked':
                                            ( $user->roles->first()->name == 'Point' &&
                                            $user->point->productsAvailable->pluck('id')->contains($product->id)
                                            ?'checked':''
@@ -84,7 +84,16 @@
                                            }}
                                            value="{{$product->id}}" type="checkbox">
                                     {{$product->name}}
+                                    @if(old("product.$product->id.id") || $user->point->productsAvailable->pluck('id')->contains($product->id) )
+                                        <label for="price{{$product->id}}" id="labelPrice{{$product->id}}">
+                                            <input type="text" class="price" placeholder="valor"
+                                                   id="price{{$product->id}}" name="product[{{$product->id}}][price]"
+                                                   value="{{old("product.$product->id.id")?old("product.$product->id.price"): $user->point->productsAvailable->find(($product->id) )->avail->price }}">
+                                        </label>
+                                    @endif
                                 </label>
+
+
                             @endforeach
                         </div>
                     </div>
@@ -98,7 +107,14 @@
 
 @endsection
 @section('scripts')
+    <script src="{{asset('/js/numeral.min.js')}}"></script>
     <script>
+        actionsClass(document.querySelectorAll('.price'), function (el) {
+            el.value = numeral(el.value).format('$0,0.00');
+            el.addEventListener('change', function () {
+                this.value = numeral(this.value).format('$0,0.00');
+            });
+        })
         const form = document.getElementById('userForm'),
             submit = document.getElementById('submit'),
             address = document.getElementById('address'),
@@ -135,7 +151,36 @@
                 }
             });
         })
+        actionsClass(document.querySelectorAll('.productCheck'), function (el) {
 
+            el.addEventListener('change', function () {
+                var id = this.parentElement.dataset.id;
+                if (this.checked) {
+                    var label = document.createElement('label'),
+                        inputPrice = document.createElement('input');
+                    label.setAttribute("for", "price" + id);
+                    label.setAttribute("id", "labelPrice" + id);
+                    inputPrice.setAttribute("type", "text");
+                    inputPrice.className = "price";
+                    inputPrice.setAttribute("placeholder", "valor");
+                    inputPrice.setAttribute("id", "price" + id);
+                    inputPrice.setAttribute("name", "product[" + id + "][price]");
+                    inputPrice.addEventListener('change', function () {
+                        this.value = numeral(this.value).format('$0,0.00');
+                    });
+                    label.appendChild(inputPrice);
+                    this.parentElement.insertBefore(label, this.nextSibling.nextSibling);
+                } else {
+                    document.getElementById('price' + id).remove()
+                }
+            })
+        })
+
+        function actionsClass(array, callback, scope) {
+            [].map.call(array, function (el) {
+                callback.call(scope, el, array[el]);
+            });
+        };
 
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

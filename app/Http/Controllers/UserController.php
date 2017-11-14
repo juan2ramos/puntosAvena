@@ -28,6 +28,10 @@ class UserController extends Controller
         if ($data['role'] == 'Point') {
             $point = Point::create($data);
             $user->point()->save($point);
+            foreach ($data['product'] as $k => $p){
+                $data['product'][$k]['price'] = str_replace(',','',str_replace('$','', $data['product'][$k]['price']));
+                unset($data['product'][$k]['id']);
+            }
             $point->productsAvailable()->attach($data['product']);
             $user->assignRole('Point');
 
@@ -54,18 +58,19 @@ class UserController extends Controller
         $id = session('userId');
         $inputs = $request->all();
         $user = User::findOrFail($id);
-
+        if(!$inputs['password'])
+            unset($inputs['password']);
         $user->fill($inputs)->save();
-
         if ($inputs['role'] == 'Point') {
 
             $point = ($user->point)?$user->point:new Point();
-
             $point->fill($inputs);
             $user->point()->save($point);
+            foreach ($inputs['product'] as $k => $p){
+                $inputs['product'][$k]['price'] = str_replace(',','',str_replace('$','', $inputs['product'][$k]['price']));
+                unset($inputs['product'][$k]['id']);
+            }
             $point->productsAvailable()->sync($inputs['product']);
-
-
         }
         $user->syncRoles($inputs['role']);
         return back()->with(['success' => '¡Cliente Actualizado!']);

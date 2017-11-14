@@ -27,30 +27,41 @@
             </div>
         @endif
 
-            <form action="/admin/puntos/reporte" method="post" id="Form" enctype="multipart/form-data">
-                {{ csrf_field() }}
-                <article class="Invoice-area">
-                    <h3>Ingrese el inventario de {{isset($date)?$date:'hoy'}}  </h3>
-                    <div class="row arrow ProductsForm">
-                        @foreach($point->stockForDay as $product)
-                            <div class="col-4">
-                                @php($old = old(str_replace(' ','_',$product->name )))
-                                <label for="{{$product->name}}" class=" row middle">
-                                    <input id="{{$product->name}}" type="number"
-                                           value="{{($old)?$old:$product->stock->quantity}}"
-                                           name="{{$product->name}}"
-                                           placeholder="Valor"
-                                           data-id="{{$product->id}}"
-                                           class="addForm"
-                                    >
-                                    <span>{{$product->name}}</span>
-                                </label>
+        <form action="/admin/puntos/reporte" method="post" id="Form" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <article class="Invoice-area">
+                <h3>Ingrese el inventario de {{isset($date)?$date:'hoy'}}  </h3>
+                <div class="row arrow ProductsForm">
+                    @foreach($point->stockForDay as $product)
+                        <div class="col-4">
 
-                            </div>
-                        @endforeach
-                    </div>
-                </article>
-            </form>
+                            <span>{{$product->name}}</span>
+                            <label for="{{$product->name}}" class=" row middle">
+                                <em>cantidad disponible</em>
+                                <input id="{{$product->name}}" type="number"
+                                       value="{{(old('quantity' . $product->id))?old('quantity' . $product->id):$product->stock->quantity}}"
+                                       style="min-width: 138px;"
+                                       name="quantity{{$product->id}}"
+                                       placeholder="Cantidad disponible"
+                                       data-id="{{$product->id}}"
+                                       data-name="quantity"
+                                       class="addForm"
+                                >
+                                <em>cantidad vendida</em>
+                                <input type="number"
+                                       style="min-width: 138px;"
+                                       value="{{(old('sold' . $product->id))?old('sold' . $product->id):$product->stock->sold}}"
+                                       name="sold{{$product->id}}"
+                                       placeholder="Cantidad vendida"
+                                       data-id="{{$product->id}}"
+                                       data-name="sold"
+                                >
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
+            </article>
+        </form>
     </section>
 
 @endsection
@@ -73,7 +84,10 @@
             }).then(function (isConfirm) {
                 if (isConfirm) {
                     actionsClass(dataform, function (el) {
-                        addHidden(el.dataset.id, el.value)
+                        addHidden(el.dataset.id, el.value, el.dataset.name)
+                        var elNext = el.nextSibling.nextSibling.nextSibling.nextSibling;
+                        addHidden(elNext.dataset.id, elNext.value, elNext.dataset.name)
+
                     });
                     form.submit();
                 }
@@ -83,10 +97,10 @@
         });
 
 
-        function addHidden(key, value) {
+        function addHidden(key, value, data) {
             var input = document.createElement('input');
             input.type = 'hidden';
-            input.name = "ids[" + key + "]";
+            input.name = "ids[" + key + "][" + data + "]";
             input.value = value;
             form.appendChild(input);
         }

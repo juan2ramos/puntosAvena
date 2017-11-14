@@ -17,8 +17,11 @@
             <div class="row arrow ProductsBack">
                 @foreach($pointProducts as $pointProduct)
                     <div class="col-4">
-                        <em>{{$pointProduct->stock->quantity}}</em>
-                        {{$pointProduct->name}}
+                        {{$pointProduct->name}} <br>
+                        <em>Cantidad disponible {{$pointProduct->stock->quantity}}</em><br>
+                        <em>Cantidad vendido {{$pointProduct->stock->sold}}</em><br>
+                        <em>valor {{$pointProduct->stock->price}}</em>
+
                     </div>
                 @endforeach
             </div>
@@ -39,17 +42,29 @@
                 <article class="Invoice-area">
                     <h3>Ingrese el inventario de hoy {{$today}} </h3>
                     <div class="row arrow ProductsForm">
+
                         @foreach($products as $product)
                             <div class="col-4">
+                                <span>{{$product->name}}</span>
                                 <label for="{{$product->name}}" class=" row middle">
                                     <input id="{{$product->name}}" type="number"
-                                           value="{{old(str_replace(' ','_',$product->name ))}}"
-                                           name="{{$product->name}}"
-                                           placeholder="Valor"
+                                               value="{{old('quantity' . $product->id)}}"
+                                           style="min-width: 138px;"
+                                           name="quantity{{$product->id}}"
+                                           placeholder="Cantidad disponible"
                                            data-id="{{$product->id}}"
+                                           data-name="quantity"
                                            class="addForm"
                                     >
-                                    <span>{{$product->name}}</span>
+                                    <input type="number"
+                                           style="min-width: 138px;"
+                                           value="{{old('sold' . $product->id)}}"
+                                           name="sold{{$product->id}}"
+                                           placeholder="Cantidad vendida"
+                                           data-id="{{$product->id}}"
+                                           data-name="sold"
+                                    >
+
                                 </label>
 
                             </div>
@@ -86,7 +101,9 @@
             }).then(function (isConfirm) {
                 if (isConfirm) {
                     actionsClass(dataform, function (el) {
-                        addHidden(el.dataset.id, el.value)
+                        addHidden(el.dataset.id, el.value, el.dataset.name)
+                        addHidden(el.nextSibling.nextSibling.dataset.id, el.nextSibling.nextSibling.value, el.nextSibling.nextSibling.dataset.name)
+
                     });
                     form.submit();
                 }
@@ -95,10 +112,10 @@
 
         });
 
-        function addHidden(key, value) {
+        function addHidden(key, value, data) {
             var input = document.createElement('input');
             input.type = 'hidden';
-            input.name = "ids[" + key + "]";
+            input.name = "ids[" + key + "][" + data + "]";
             input.value = value;
             form.appendChild(input);
         }

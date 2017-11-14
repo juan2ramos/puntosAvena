@@ -55,12 +55,15 @@ class ProductController extends Controller
     public function productPoint(ProductPointRequest $request)
     {
         $ids = $request->input('ids');
-        $arrayIds = [];
-        foreach ($ids as $key => $id) {
-            $arrayIds += [$key => ['quantity' => $id, 'date' => Carbon::today()->toDateString()]];
-        }
-        auth()->user()->point->products()->attach($arrayIds);
+        $products = (auth()->user()->hasRole('Administrator')) ?
+            Point::with('')->find(session('pointId'))->productsAvailable:
+            auth()->user()->point->productsAvailable;
 
+        foreach ($ids as $key => $id) {
+            $ids[$key] +=  ['date' => Carbon::today()->toDateString()] ;
+            $ids[$key] +=  ['price' => $products->find($key )->avail->price] ;
+        }
+        auth()->user()->point->products()->attach($ids);
         return back();
     }
 }

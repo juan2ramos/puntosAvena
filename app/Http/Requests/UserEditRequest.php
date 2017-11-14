@@ -28,6 +28,8 @@ class UserEditRequest extends FormRequest
             'email' => 'required|email|unique:users,email,'.session('userId'),
             'role' => 'required',
             'password' => 'nullable|min:6',
+            'product' => 'required_if:role,Point',
+            'product.*.price' => 'required_with:product.*.id',
         ];
     }
     public function messages()
@@ -39,6 +41,8 @@ class UserEditRequest extends FormRequest
             'email.unique'  => 'El email esta en uso',
             'role.required'  => 'Rol requerido',
             'password.min'  => 'Contraseña debe tener mínimo 6 caracteres',
+            'product.*.price.required_with' => 'Los precios de los productos son obligatorios',
+            'product.required_if' => 'Debes seleccionar al menos un producto',
         ];
     }
 }
